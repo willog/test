@@ -111,6 +111,7 @@ public class CameraPreview extends SurfaceView implements AndSketch.IAndSketchEv
 		//cameraのプレビューサイズを設定
 		Camera.Parameters cparam=this._camera_ref.getParameters();
 		cparam.setPreviewFormat(ImageFormat.NV21);
+		cparam.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
 		cparam.setPreviewSize(i_w, i_h);
 		cparam.setPreviewFrameRate(i_fps);
 		this._camera_ref.setParameters(cparam);
