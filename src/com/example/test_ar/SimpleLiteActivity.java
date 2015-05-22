@@ -44,6 +44,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
@@ -52,6 +53,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 
 /**
  * Hiroマーカの上にカラーキューブを表示します。
@@ -101,7 +103,9 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	
 	public static final int MSG_MEASURE_COMPLETE = 201;
 	
-	private ImageView mImvMeasurePopText;	
+	private ImageView mImvMeasurePopText;
+	
+	private int orl_value = 2;
 	
 	
 	private SensorManager sm;	
@@ -147,7 +151,15 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	
 	private FrameLayout fr;
 
-	private TextView mTvxMeasureLoading;	
+	private TextView mTvxMeasureLoading;
+	
+	private ImageView mImvOrlView;	
+	
+	private int w;
+	private int h;
+	
+	private boolean orl_pass = false;
+	
 	
 	@Override
 	public void onStart()
@@ -190,13 +202,13 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		
 //		fr.addView(this._camera_preview, 0, layoutParams);
 		
-		int h = this.getWindowManager().getDefaultDisplay().getHeight();
+		h = this.getWindowManager().getDefaultDisplay().getHeight();
 		int screen_w , screen_h;
 		screen_w= _cap_size.width * h/_cap_size.height ;
 		screen_h=h;
 		
 		
-		int w = this.getWindowManager().getDefaultDisplay().getWidth();
+		w = this.getWindowManager().getDefaultDisplay().getWidth();
 		int targetX = (w * 300) / 1280;
 		int arrangedCenterPosX = (screen_h * 320) / 480;
 		this._camera_preview.setX (targetX-arrangedCenterPosX);
@@ -209,9 +221,6 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		fr.addView(this._glv, 0,  new LayoutParams(screen_w, screen_h));
 		fr.addView(mMeasureView);	
 		
-		Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		display.getMetrics(displayMetrics);
 		
 		// Start Sensor Thread
 		sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
@@ -252,32 +261,37 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 				final EditText edt = new EditText(SimpleLiteActivity.this);
 				edt.setInputType(InputType.TYPE_CLASS_NUMBER);
 				
-				AlertDialog.Builder alert = new AlertDialog.Builder(SimpleLiteActivity.this);
-				alert.setTitle("알림");
-				alert.setMessage("거리를 입력하세요.");
-				alert.setView(edt);
-				alert.setPositiveButton("측정", new DialogInterface.OnClickListener() 
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which) 
+				if(orl_pass == true){
+					AlertDialog.Builder alert = new AlertDialog.Builder(SimpleLiteActivity.this);
+					alert.setTitle("알림");
+					alert.setMessage("거리를 입력하세요.");
+					alert.setView(edt);
+					alert.setPositiveButton("측정", new DialogInterface.OnClickListener() 
 					{
-						m_captureDistance = Integer.parseInt(edt.getText().toString());
-						m_capture = true;
-						
-						dialog.dismiss();
-					}
-				});
-				alert.setNegativeButton("취소", new DialogInterface.OnClickListener() 
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which) 
+						@Override
+						public void onClick(DialogInterface dialog, int which) 
+						{
+							m_captureDistance = Integer.parseInt(edt.getText().toString());
+							m_capture = true;
+							
+							dialog.dismiss();
+						}
+					});
+					alert.setNegativeButton("취소", new DialogInterface.OnClickListener() 
 					{
-						dialog.dismiss();
-					}
-				});
-				alert.show();
+						@Override
+						public void onClick(DialogInterface dialog, int which) 
+						{
+							dialog.dismiss();
+						}
+					});
+					alert.show();
+				}
 			}
-		});
+		}
+		
+				
+				);
 		
 		mContext = getApplicationContext();		
 	}
@@ -333,6 +347,28 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	AndGLFpsLabel fps;
 	
 	
+	public ImageView imgView(int resId, int mx, int my){
+
+		
+		
+		Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		display.getMetrics(displayMetrics);
+
+		
+		MarginLayoutParams marginParams = new MarginLayoutParams(320, 237);
+		marginParams.setMargins(mx, my, 0, 0);
+
+		ImageView imvImage = new ImageView(mContext);		
+		imvImage.setImageResource(resId);
+		imvImage.setLayoutParams(new FrameLayout.LayoutParams(marginParams));
+		
+		fr.addView(imvImage);
+		
+		return imvImage; 		
+	}
+	
+	
 	public void onSensorChanged(SensorEvent event){ //http://ehdrn.tistory.com/338 참고할것
 		  // 정확도가 낮은 측정값인 경우
       if (event.accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
@@ -343,10 +379,38 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
           			m_orl_dataxy = event.values[2];
           			m_orl_datax2y2 = event.values[1];
           			
+          			if(mImvOrlView != null){
+          				fr.removeView(mImvOrlView);
+          			}
+          			
+          			
 					if(m_orl_dataxy<=2 && m_orl_dataxy>=-2 && m_orl_datax2y2<=2 && m_orl_datax2y2>=-2){
-					mTvxMeasureLoading.setText("기울기 정상");							
+						orl_pass = true;
+						mTvxMeasureLoading.setText("기울기 정상");		
+						mImvOrlView = imgView(R.drawable.orl_ok,600,0);
+						fr.invalidate();
 					}else{
-					mTvxMeasureLoading.setText("기울어졌습니다.");
+						orl_pass = false;						
+						mTvxMeasureLoading.setText("기울어졌습니다.");
+					
+	    				if(m_orl_dataxy<=-orl_value && m_orl_datax2y2>=orl_value){ // 위쪽 왼쪽으로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_lefttop,600,0);
+	    				}else if(m_orl_dataxy<=-orl_value && m_orl_datax2y2<=-orl_value){ // 위쪽 오른쪽으로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_righttop,600,0);    					
+	    				}else if(m_orl_dataxy>=orl_value && m_orl_datax2y2>=orl_value){ // 아래쪽 왼쪽으로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_leftbottom,600,0);    					
+	    				}else if(m_orl_dataxy>=orl_value && m_orl_datax2y2<=-orl_value){ // 아래쪽 오른쪽으로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_rightbottom,600,0);    					
+	    				}else if(m_orl_dataxy>=orl_value){ // 아래로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_bottom,600,0);    					
+	    				}else if(m_orl_dataxy<=-orl_value){ // 위로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_top,600,0);    					
+	    				}else if(m_orl_datax2y2>=orl_value){ // 왼쪽으로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_left,600,0);    					
+	    				}else if(m_orl_datax2y2<=-orl_value){ // 오른쪽으로 기울였을때
+	    					mImvOrlView = imgView(R.drawable.orl_right,600,0);    					
+	    				}
+					
 					}
 					
 					fr.invalidate();
@@ -431,6 +495,8 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		
 	}
 	
+	
+	
 	/**
 	 * 継承したクラスで表示したいものを実装してください
 	 * @param gl
@@ -469,6 +535,8 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	}
 	
 	Exception ex=null;
+
+	
 	
 	private void addMeasuredValue(final int distance, final int area)
 	{
