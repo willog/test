@@ -31,7 +31,7 @@ public class MainActivity extends Activity
 		{
 			new AlertDialog.Builder(this)
 				.setTitle("알림")
-				.setMessage("모델명 : [" + Build.MODEL + "] 은 미지원 단말기 입니다.")
+				.setMessage("이모델은 "+ m_map +"입니다. "+"모델명 : [" + Build.MODEL + "] 은 미지원 단말기 입니다.")
 				.setPositiveButton("확인", new DialogInterface.OnClickListener() 
 				{
 					@Override

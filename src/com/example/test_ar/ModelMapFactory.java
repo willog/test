@@ -33,6 +33,9 @@ import com.example.test_ar.model.samsung.SHV_E500;
 import com.example.test_ar.model.samsung.SHW_M250;
 import com.example.test_ar.model.samsung.SHW_M440;
 import com.example.test_ar.model.samsung.SHW_M570;
+import com.example.test_ar.model.samsung.SM_G906;
+
+
 import com.example.test_ar.model.samsung.SM_N900;
 
 public class ModelMapFactory 
@@ -55,6 +58,10 @@ public class ModelMapFactory
 		new SHW_M570(),	// 갤럭시 어드밴스 코어
 		new SM_N900(),	// 갤럭시노트3
 //		new SM_G900(),	// 갤럭시S5
+		new SM_G906(),	// 갤럭시S5
+//		new SM_G906L(),	// 갤럭시S5
+//		new SM_G906K(),	// 갤럭시S5
+//		new SM_G906S(),	// 갤럭시S5
 //		new SM_N750(),	// 갤럭시노트3 네오
 		
 		new LG_F100(),
@@ -91,6 +98,8 @@ public class ModelMapFactory
 		sb.append(", widthPixels : "); sb.append(dm.widthPixels);
 		sb.append(", heightPixels : "); sb.append(dm.heightPixels);
 		sb.append(", scaledDensity : "); sb.append(dm.scaledDensity);
+		
+		sb.append("모델명 : "); sb.append(Build.MODEL);
 		
 		Log.d("test", sb.toString());
 		
