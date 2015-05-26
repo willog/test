@@ -10,7 +10,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 
 public class MeasureView extends View {
 	private Bitmap mBmMeasureBg;
@@ -22,8 +24,15 @@ public class MeasureView extends View {
 	private int l;
 	private int t;
 	
+	private Display display;	
+	
+	
 	public MeasureView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		
+	    WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+	    display = wm.getDefaultDisplay();		
+
 		initialize(context);
 	}
 	
@@ -55,36 +64,18 @@ public class MeasureView extends View {
 		t = (mHeight*(-80)) / 672;
 	}
 
-	Bitmap ShrinkBitmap(int file, int width, int height){
-		Resources r = getResources();
-	     BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
-	        bmpFactoryOptions.inJustDecodeBounds = true;
-	        Bitmap bitmap = BitmapFactory.decodeResource(r, file, bmpFactoryOptions);
-	        
-	        int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
-	        int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
-	        
-	        if (heightRatio > 1 || widthRatio > 1)
-	        {
-	         if (heightRatio > widthRatio)
-	         {
-	          bmpFactoryOptions.inSampleSize = heightRatio;
-	         } else {
-	          bmpFactoryOptions.inSampleSize = widthRatio; 
-	         }
-	        }
-	        
-	        bmpFactoryOptions.inJustDecodeBounds = false;
-	        bitmap = BitmapFactory.decodeResource(r, file, bmpFactoryOptions);
-	     return bitmap;
-	    }	
-	
 	private void initialize(Context context) {
 		Resources r = getResources();
 //		mBmMeasureBg = ShrinkBitmap(R.drawable.measure_bg, width, height);
 		
-		mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg);
-//		mResizeBg = Bitmap.createScaledBitmap(mBmMeasureBg, l, t, false);
+		mWidth = display.getWidth();
+		mHeight = display.getHeight();		
+
+		if(mWidth <=1024 && mHeight >= 720){
+			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg_768);			
+		}else{
+			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg);			
+		}
 
 	}
 	

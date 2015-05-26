@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.test_ar.model.lg.LG_F100;
 import com.example.test_ar.model.lg.LG_F180;
+import com.example.test_ar.model.lg.LG_F200;
 import com.example.test_ar.model.lg.LG_F240;
 import com.example.test_ar.model.lg.LG_F300;
 import com.example.test_ar.model.lg.LG_F320;
@@ -67,6 +68,7 @@ public class ModelMapFactory
 		new LG_F100(),
 		new LG_F180(),	// 옵티머스 G
 		new LG_F240(),	// 옵티머스 G Pro
+		new LG_F200(),	// VUE 3		
 		new LG_F300(),	// VUE 3
 		new LG_F320(),	// G2
 		new LG_F340(),	// G Flex
