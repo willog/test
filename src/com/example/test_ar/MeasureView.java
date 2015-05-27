@@ -72,7 +72,7 @@ public class MeasureView extends View {
 		mHeight = display.getHeight();		
 		
 
-		if(mWidth == 1024 && mHeight == 720 ){ //뷰2
+		if(mWidth == 1024 && mHeight == 768 ){ //뷰2
 			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg_768);		
 		}else if(mWidth == 1280 && mHeight == 960) { // 뷰3
 			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg_960);
