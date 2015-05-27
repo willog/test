@@ -14,6 +14,7 @@ import com.example.test_ar.model.lg.LG_F320;
 import com.example.test_ar.model.lg.LG_F340;
 import com.example.test_ar.model.lg.LG_F350;
 import com.example.test_ar.model.lg.LG_F400;
+import com.example.test_ar.model.lg.LG_F500;
 import com.example.test_ar.model.pantech.IM_A760;
 import com.example.test_ar.model.pantech.IM_A800;
 import com.example.test_ar.model.pantech.IM_A810;
@@ -74,6 +75,8 @@ public class ModelMapFactory
 		new LG_F340(),	// G Flex
 		new LG_F350(),	// G Pro 2
 		new LG_F400(),	// G3
+		new LG_F500(),	// G3		
+		
 
 //		new IM_A770(),	// 베가 레이서
 		new IM_A760(),
