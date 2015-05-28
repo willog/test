@@ -7,6 +7,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.util.Log;
 
+import com.example.test_ar.R;
+import com.example.test_ar.Util;
+
 
 /**
  * 立方体の表示クラスです。
@@ -76,6 +79,10 @@ public class AndGLBox  implements AndGLView.IGLViewEventListener
 		gl.glDisable(GL10.GL_TEXTURE_2D);
 		gl.glDisable(GL10.GL_NORMALIZE);  
 		gl.glDisable(GL10.GL_LIGHTING); 			
+
+
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 		
 		gl.glColorPointer( 4, GL10.GL_FLOAT, 0,this._color);
 		gl.glVertexPointer( 3, GL10.GL_FLOAT, 0,this._vertex);
@@ -84,7 +91,9 @@ public class AndGLBox  implements AndGLView.IGLViewEventListener
 		gl.glPushMatrix();
 		gl.glTranslatef(i_x,i_y,i_z);
 		gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_BYTE,this._index);
-		gl.glPopMatrix();		
+		gl.glPopMatrix();
+		
+		
 //		gl.glEnable(GL10.GL_TEXTURE_2D);
 //		gl.glEnable(GL10.GL_NORMALIZE);  
 //		gl.glEnable(GL10.GL_LIGHTING); 			
@@ -97,6 +106,7 @@ public class AndGLBox  implements AndGLView.IGLViewEventListener
 		if(this._ref_gl!=null){
 		}
 		this._ref_gl=i_gl;
+		
 	}
 	@Override
 	public void onGlMayBeStop()

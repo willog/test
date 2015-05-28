@@ -11,6 +11,7 @@ import jp.androidgroup.nyartoolkit.markersystem.NyARAndMarkerSystem;
 import jp.androidgroup.nyartoolkit.markersystem.NyARAndSensor;
 import jp.androidgroup.nyartoolkit.sketch.AndSketch;
 import jp.androidgroup.nyartoolkit.utils.camera.CameraPreview;
+import jp.androidgroup.nyartoolkit.utils.gl.AndGLBitmapSprite;
 import jp.androidgroup.nyartoolkit.utils.gl.AndGLBox;
 import jp.androidgroup.nyartoolkit.utils.gl.AndGLDebugDump;
 import jp.androidgroup.nyartoolkit.utils.gl.AndGLFpsLabel;
@@ -150,6 +151,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	private boolean mIsAddedMeasurePopText;
 	
 	private FrameLayout fr;
+	private FrameLayout box_fr;
 
 	private TextView mTvxMeasureLoading;
 	
@@ -180,6 +182,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 
 		
 		fr = ((FrameLayout)this.findViewById(R.id.sketchLayout));
+		
 		
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
 		layoutParams.gravity = Gravity.CENTER_VERTICAL;
@@ -215,11 +218,16 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		
 		fr.addView(this._camera_preview, 0, new LayoutParams(screen_w, screen_h));
 		
+		Util.Log("카메라 x 좌표 : "+this._camera_preview.getX());
+		
 		
 		this._glv=new AndGLView(this);
 		this._glv.setX (targetX-arrangedCenterPosX);
 		fr.addView(this._glv, 0,  new LayoutParams(screen_w, screen_h));
+
 		fr.addView(mMeasureView);	
+		
+
 		
 		
 		// Start Sensor Thread
@@ -343,6 +351,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	NyARAndSensor mSensor;
 	private int _mid;
 	AndGLTextLabel text;
+	AndGLBitmapSprite anBit;
 	AndGLBox box;
 	AndGLFpsLabel fps;
 	
@@ -373,9 +382,12 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		  // 정확도가 낮은 측정값인 경우
       if (event.accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
       }
+      
+      
       // 센서값을 측정한 센서의 종류가 조도 센서인 경우
       if(event.sensor.getType()== Sensor.TYPE_ORIENTATION){
           try {
+        	  
           			m_orl_dataxy = event.values[2];
           			m_orl_datax2y2 = event.values[1];
           			
@@ -415,6 +427,8 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 					
 					fr.invalidate();
 					
+					
+					
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -450,7 +464,8 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 			gl.glLoadMatrixf(this.mMarkerSystem.getGlProjectionMatrix(),0);
 			this.text=new AndGLTextLabel(this._glv);
 			
-			this.box=new AndGLBox(this._glv,80);
+			this.box=new AndGLBox(this._glv,30);
+			//this.anBit = new AndGLBitmapSprite(this._glv,100,100);
 			this._debug=new AndGLDebugDump(this._glv);
 			this.fps=new AndGLFpsLabel(this._glv,"MarkerPlaneActivity");
 			this.fps.prefix=this._cap_size.width+"x"+this._cap_size.height+":";
@@ -492,6 +507,8 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadMatrixf(this.mMarkerSystem.getGlMarkerMatrix(this._mid),0);
 		this.box.draw(0,0,10);
+		
+		//this.anBit.draw(100, 100);
 		
 	}
 	

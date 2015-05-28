@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,17 +17,21 @@ import com.example.test_ar.R;
 
 public class AndSketch extends Activity
 {
+	
 	public interface IAndSketchEventListerner
 	{
 		public void onAcResume();
 		public void onAcPause();
 		public void onAcDestroy() throws Exception;
 		public void onAcStop() throws Exception;
+		
+
 	}
 	
 	public ArrayList<IAndSketchEventListerner> _evlistener=new ArrayList<IAndSketchEventListerner>();
 	
-	
+	public Paint mPaint;
+	public Canvas canvas;
 
 	public AndSketch()
 	{
@@ -114,6 +121,14 @@ public class AndSketch extends Activity
 			e.printStackTrace();
 		}
 		super.finish();
+	}
+	
+	public void onDraw() {
+		// TODO Auto-generated method stub
+		mPaint.setColor(Color.BLUE);
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeWidth(3);
+		canvas.drawRect(10, 10, 100, 100, mPaint);	
 	}
 }
 

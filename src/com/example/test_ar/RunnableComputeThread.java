@@ -3,6 +3,8 @@ package com.example.test_ar;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.example.test_ar.Util;
+
 import potencia.sam.lib.AreaUtil;
 import android.graphics.Point;
 import android.hardware.Sensor;
@@ -43,6 +45,10 @@ public class RunnableComputeThread implements Runnable
 	public boolean getPlay() { return m_play; }
 	
 	public double getMeasuredDistance() { return m_measuredDistance; }
+	
+	private int orl_value = 2;
+	private double distance_fl;
+	private int onemore = 0;
 	
 	
 	public RunnableComputeThread(SensorManager sm, Handler handler)
@@ -113,12 +119,13 @@ public class RunnableComputeThread implements Runnable
 						try { Thread.sleep(10); } catch (Exception e) {}
 						continue;
 					}
-					
-					if (Math.abs(m_angleB) > 5 || Math.abs(m_angleA) > 5)
+										
+					if (m_angleB >=orl_value && m_angleB <=-orl_value && m_angleA >=orl_value && m_angleA <= -orl_value)
 					{
 						try { Thread.sleep(10); } catch (Exception e) {}
 						continue;
 					}
+					
 
 					double area = AreaUtil.ComputeArea(points.get(0), points.get(1), points.get(2), points.get(3));
 					Map2DItem item = MainActivity.m_map.find2DItem((int)area);
@@ -129,6 +136,10 @@ public class RunnableComputeThread implements Runnable
 					}
 					
 					double distance = (double)((Math.sqrt(item.getStdArea()) * item.getDistance()) / Math.sqrt(area));
+					
+					distance_fl = (double)(item.getStdArea() * item.getDistance()) / area;
+
+					Util.Log("1111 입력한 면적 크기 : "+item.getStdArea()+" 입력한 길이  : "+item.getDistance()+" 실제 면접 값 : "+ area);										
 					
 					//double distance = (double)((Math.sqrt(MainActivity.STD_AREA) * 100) / Math.sqrt(area));
 					
@@ -171,8 +182,15 @@ public class RunnableComputeThread implements Runnable
 						for (Double d : values)
 						{
 							m_measuredDistance += d;
+							onemore ++;
 						}
 						m_measuredDistance /= values.size();
+						
+						for (Double a : values)
+						{
+							m_measuredDistance += a;
+						}
+						m_measuredDistance /= onemore;
 					}
 					
 					m_running = false;

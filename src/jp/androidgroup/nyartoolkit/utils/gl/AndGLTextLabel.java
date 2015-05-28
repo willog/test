@@ -22,7 +22,7 @@ public class AndGLTextLabel extends AndGLBasicSprite
     	this.fgpaint.setTypeface(Typeface.DEFAULT);
     	this.fgpaint.setTextSize(16.0f);
     	this.fgpaint.setAntiAlias(true);
-    	this.bgpaint.setColor(Color.BLACK);
+    	this.bgpaint.setColor(Color.BLUE);
     	this.bgpaint.setStyle(Style.FILL);
 		
 	}
