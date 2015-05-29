@@ -76,6 +76,8 @@ public class MeasureView extends View {
 			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg_768);		
 		}else if(mWidth == 1280 && mHeight == 960) { // 뷰3
 			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg_960);
+		}else if(mWidth == 1280 && mHeight == 800) { // 뷰3
+			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg_800);
 		}else{
 			mBmMeasureBg = BitmapFactory.decodeResource(r, R.drawable.measure_bg);
 		} 

@@ -35,7 +35,9 @@ import com.example.test_ar.model.samsung.SHV_E500;
 import com.example.test_ar.model.samsung.SHW_M250;
 import com.example.test_ar.model.samsung.SHW_M440;
 import com.example.test_ar.model.samsung.SHW_M570;
+import com.example.test_ar.model.samsung.SM_G900;
 import com.example.test_ar.model.samsung.SM_G906;
+import com.example.test_ar.model.samsung.SM_G920;
 
 
 import com.example.test_ar.model.samsung.SM_N900;
@@ -59,8 +61,9 @@ public class ModelMapFactory
 		new SHV_E500(),	// 갤럭시 Win
 		new SHW_M570(),	// 갤럭시 어드밴스 코어
 		new SM_N900(),	// 갤럭시노트3
-//		new SM_G900(),	// 갤럭시S5
-		new SM_G906(),	// 갤럭시S5
+		new SM_G900(),	// 갤럭시S5
+		new SM_G906(),	// 갤럭시S5 
+		new SM_G920(),	// 갤럭시S6		
 //		new SM_G906L(),	// 갤럭시S5
 //		new SM_G906K(),	// 갤럭시S5
 //		new SM_G906S(),	// 갤럭시S5
