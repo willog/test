@@ -16,6 +16,7 @@ public class RunnableMeasureThread implements Runnable
 	private Handler m_handler;
 	
 	private boolean m_running = false;
+	//private double m
 	
 	private Lock m_mutex = new ReentrantLock(true);
 	private boolean m_capture = false;
@@ -62,7 +63,8 @@ public class RunnableMeasureThread implements Runnable
 				Message msg = Message.obtain();
 				msg.what = 2;
 				msg.arg1 = m_distance;
-				msg.arg2 = (int)area;
+				msg.obj = (double)area;
+				
 				
 				m_handler.sendMessage(msg);
 				

@@ -8,5 +8,5 @@ public interface IModelMap
 	ArrayList<Map2DItem> getList();
 	
 	void initMinAndMax();
-	Map2DItem find2DItem(int area);
+	Map2DItem find2DItem(double area);
 }

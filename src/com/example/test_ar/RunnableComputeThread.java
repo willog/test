@@ -128,7 +128,7 @@ public class RunnableComputeThread implements Runnable
 					
 
 					double area = AreaUtil.ComputeArea(points.get(0), points.get(1), points.get(2), points.get(3));
-					Map2DItem item = MainActivity.m_map.find2DItem((int)area);
+					Map2DItem item = MainActivity.m_map.find2DItem(area);
 					if (item == null)
 					{
 						try { Thread.sleep(10); } catch (Exception e) {}
@@ -197,7 +197,7 @@ public class RunnableComputeThread implements Runnable
 					
 					Message msg = Message.obtain();
 					msg.what = 1;
-					msg.arg1 = (int)m_measuredDistance;
+					msg.obj = (Double)m_measuredDistance;
 					
 					m_handler.sendMessage(msg);
 					

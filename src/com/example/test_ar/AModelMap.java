@@ -24,7 +24,7 @@ public abstract class AModelMap implements IModelMap
 	@Override
 	public void initMinAndMax() 
 	{
-		int min = 1;
+		double min = 1.0;
 		int max = Integer.MAX_VALUE;
 		for (int i=0; i<m_list.size() - 1; ++i)
 		{
@@ -35,7 +35,7 @@ public abstract class AModelMap implements IModelMap
 	}
 	
 	@Override
-	public Map2DItem find2DItem(int area)
+	public Map2DItem find2DItem(double area)
 	{
 		for (Map2DItem item : m_list)
 		{

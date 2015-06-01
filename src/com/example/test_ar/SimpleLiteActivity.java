@@ -261,7 +261,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		fr.addView(mTvxMeasureLoading);
 		
 		
-		this._camera_preview.setOnClickListener(new View.OnClickListener() 
+		this.mMeasureView.setOnClickListener(new View.OnClickListener() 
 		{	
 			@Override
 			public void onClick(View v) 
@@ -498,6 +498,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 			
 			m_capture = false;
 			m_captureDistance = 0;
+			
 		}
 		
 		m_runnableComputeThread.PushBack(item);
@@ -555,7 +556,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 
 	
 	
-	private void addMeasuredValue(final int distance, final int area)
+	private void addMeasuredValue(final int distance, final double area)
 	{
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("결과");
@@ -607,7 +608,8 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 				
 				break;
 			case 2:
-				addMeasuredValue(msg.arg1, msg.arg2);
+				double area = (Double)(msg.obj);
+				addMeasuredValue(msg.arg1, area);
 				break;
 				
 			}
