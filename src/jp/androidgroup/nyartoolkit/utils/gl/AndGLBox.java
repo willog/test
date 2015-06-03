@@ -78,7 +78,7 @@ public class AndGLBox  implements AndGLView.IGLViewEventListener
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisable(GL10.GL_TEXTURE_2D);
 		gl.glDisable(GL10.GL_NORMALIZE);  
-		gl.glDisable(GL10.GL_LIGHTING); 			
+		gl.glDisable(GL10.GL_LIGHT1); 			
 
 
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
@@ -86,7 +86,7 @@ public class AndGLBox  implements AndGLView.IGLViewEventListener
 		
 		gl.glColorPointer( 4, GL10.GL_FLOAT, 0,this._color);
 		gl.glVertexPointer( 3, GL10.GL_FLOAT, 0,this._vertex);
-		
+
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glPushMatrix();
 		gl.glTranslatef(i_x,i_y,i_z);

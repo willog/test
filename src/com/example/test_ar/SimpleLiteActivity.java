@@ -121,6 +121,8 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	AndGLView _glv;
 	Camera.Size _cap_size;
 	
+	
+	
 	private NyARAndMarkerSystem mMarkerSystem;	
 	
 	private RunnableComputeThread m_runnableComputeThread = null;
@@ -486,6 +488,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 	{
 		NyARIntPoint2d[] points = this.mMarkerSystem.getMarkerVertex2D(_mid);
 
+	//	ArrayList<Point> item = new ArrayList<Point>();
 		ArrayList<Point> item = new ArrayList<Point>();
 		item.add(new Point(points[0].x, points[0].y));
 		item.add(new Point(points[1].x, points[1].y));
@@ -495,6 +498,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		if (m_capture && m_captureDistance > 0)
 		{
 			m_runnableMeasureThread.setCapture(m_captureDistance, item, true);
+			
 			
 			m_capture = false;
 			m_captureDistance = 0;
@@ -508,6 +512,7 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadMatrixf(this.mMarkerSystem.getGlMarkerMatrix(this._mid),0);
 		this.box.draw(0,0,10);
+		
 		
 		//this.anBit.draw(100, 100);
 		
@@ -608,8 +613,10 @@ public class SimpleLiteActivity extends AndSketch implements AndGLView.IGLFuncti
 				
 				break;
 			case 2:
-				double area = (Double)(msg.obj);
-				addMeasuredValue(msg.arg1, area);
+				Double area = (Double)(msg.obj);
+				Util.Log("##### msg area : "+area.doubleValue());
+				
+				addMeasuredValue(msg.arg1, area.doubleValue());
 				break;
 				
 			}

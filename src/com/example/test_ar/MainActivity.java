@@ -82,8 +82,9 @@ public class MainActivity extends Activity
 		super.onDestroy();	
 	}
 	
-	private void showMeasuredList()
+	public void showMeasuredList()
 	{
+		
 		StringBuilder sb = new StringBuilder();
 		for (Map2DItem item : m_measureList)
 		{
